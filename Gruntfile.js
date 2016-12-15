@@ -186,10 +186,10 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'jshint:test',
+    // 'jshint:test',
     'jshint:src',
     'babel',
-    'karma:travis',
+    // 'karma:travis',
     'concat',
     'uglify:common'
   ]);

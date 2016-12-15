@@ -687,12 +687,23 @@ angular.module('ui.scroll', [])
           clone.remove();
         });
 
+        var debounce = function debounce(fn, wait) {
+          var timeout;
+          return function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => fn.apply(this, arguments), (wait || 1));
+          };
+        };
+
+        var wheelHandlerDebounced = debounce(wheelHandler, 300);
+        var resizeHandlerDebounced = debounce(resizeAndScrollHandler, 300);
+
         $scope.$on('$destroy', () => {
           unbindEvents();
-          viewport.unbind('mousewheel', wheelHandler);
+          viewport.unbind('mousewheel', wheelHandlerDebounced);
         });
 
-        viewport.bind('mousewheel', wheelHandler);
+        viewport.bind('mousewheel', wheelHandlerDebounced);
 
         $timeout(() => {
           viewport.applyContainerStyle();
@@ -706,13 +717,13 @@ angular.module('ui.scroll', [])
         }
 
         function bindEvents() {
-          viewport.bind('resize', resizeAndScrollHandler);
-          viewport.bind('scroll', resizeAndScrollHandler);
+          viewport.bind('resize', resizeHandlerDebounced);
+          viewport.bind('scroll', resizeHandlerDebounced);
         }
 
         function unbindEvents() {
-          viewport.unbind('resize', resizeAndScrollHandler);
-          viewport.unbind('scroll', resizeAndScrollHandler);
+          viewport.unbind('resize', resizeHandlerDebounced);
+          viewport.unbind('scroll', resizeHandlerDebounced);
         }
 
         function reload() {
@@ -972,6 +983,9 @@ angular.module('ui.scroll', [])
 
             if ((scrollTop === 0 && !buffer.bof) || (scrollTop === yMax && !buffer.eof)) {
               event.preventDefault();
+              adjustBuffer();
+              adjustBufferAfterFetch();
+              updateDOM();
             }
           }
         }
