@@ -695,8 +695,8 @@ angular.module('ui.scroll', [])
           };
         };
 
-        var wheelHandlerDebounced = debounce(wheelHandler, 300);
-        var resizeHandlerDebounced = debounce(resizeAndScrollHandler, 300);
+        var wheelHandlerDebounced = debounce(wheelHandler, 5);
+        var resizeHandlerDebounced = debounce(resizeAndScrollHandler, 5);
 
         $scope.$on('$destroy', () => {
           unbindEvents();

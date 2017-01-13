@@ -1,7 +1,7 @@
 /*!
  * angular-ui-scroll
  * https://github.com/angular-ui/ui-scroll.git
- * Version: 1.5.2-scroll-fix-1 -- 2016-12-15T10:45:01.701Z
+ * Version: 1.5.2-scroll-fix-2 -- 2017-01-13T13:51:34.727Z
  * License: MIT
  */
  
@@ -714,8 +714,8 @@ angular.module('ui.scroll', []).directive('uiScrollViewport', function () {
       };
     };
 
-    var wheelHandlerDebounced = debounce(wheelHandler, 300);
-    var resizeHandlerDebounced = debounce(resizeAndScrollHandler, 300);
+    var wheelHandlerDebounced = debounce(wheelHandler, 5);
+    var resizeHandlerDebounced = debounce(resizeAndScrollHandler, 5);
 
     $scope.$on('$destroy', function () {
       unbindEvents();
